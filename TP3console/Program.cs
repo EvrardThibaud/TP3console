@@ -1,6 +1,7 @@
 ﻿using System;
 using TP3console.Models.EntityFramework;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace TP3console
 {
@@ -10,7 +11,15 @@ namespace TP3console
         {
             using (var ctx = new FilmsDBContext())
             {
-                Film titanic = ctx.Films.First(f => f.Nom.Contains("Titanic"));
+                /*ctx.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;*/
+
+
+                Film titanic = ctx.Films.AsNoTracking().First(f => f.Nom.Contains("Titanic"));
+
+                /*Film titanic = (from f in ctx.Films
+                                where f.Nom == "Titanic"
+                                select f).First();*/
+
 
                 titanic.Description = "Un bateau échoué. Date : " + DateTime.Now;
 
